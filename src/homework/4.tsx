@@ -1,23 +1,33 @@
 import React, { createContext, useMemo, useState, useContext } from "react";
 import noop from "lodash/noop";
+import { type } from "@testing-library/user-event/dist/type";
 
 type MenuIds = "first" | "second" | "last";
 type Menu = { id: MenuIds; title: string };
 
 // Додати тип Menu Selected
+type SelectedMenu = { 
+  id?: MenuIds 
+};
+type MenuSelected ={
+  selectedMenu: SelectedMenu
+}
 
 const MenuSelectedContext = createContext<MenuSelected>({
   selectedMenu: {},
 });
 
 // Додайте тип MenuAction
+type MenuAction={
+  onSelectedMenu: (SelectedMenu: object) => void
+}
 
 const MenuActionContext = createContext<MenuAction>({
   onSelectedMenu: noop,
 });
 
 type PropsProvider = {
-  children; // Додати тип для children
+  children: React.ReactNode; // Додати тип для children
 };
 
 function MenuProvider({ children }: PropsProvider) {
@@ -48,7 +58,7 @@ function MenuProvider({ children }: PropsProvider) {
 }
 
 type PropsMenu = {
-  menus; // Додайте вірний тип для меню
+  menus: Menu[]; // Додайте вірний тип для меню
 };
 
 function MenuComponent({ menus }: PropsMenu) {
